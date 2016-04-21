@@ -1,0 +1,47 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Notele elevului
+      =link_to @student.full_name, @student
+.wrapper.wrapper-content.animated.fadeInRight
+  -@table.each_slice(2) do |years|
+    .row
+      -years.each do |year, subjects|
+        .col-lg-6
+          .ibox.float-e-margins
+          .ibox-title
+            %h5
+              Clasa
+              = year
+          .ibox-content
+            %table.table.table-bordered
+              %thead
+                %tr
+                  %th.col-md-4.text-center Materia
+                  %th.text-center Sem 1
+                  -if year >= 10
+                    %th.text-center Teză
+                  %th.text-center Sem 2
+                  -if year >= 10
+                    %th.text-center Teză
+              %tbody
+                -subjects.each do |subject, grades|
+                  %tr
+                    %td= subject
+                    -grades.each do |grade|
+                      -if grade.nil?
+                        %td.text-center —
+                      -else
+                        %td.edit.text-center{id: grade.id}= grade.value
+
+:javascript
+  $(document).ready(function() {
+    $('.edit').editable('grades',{
+        height: 20,
+        width: 50,
+        placeholder: '',
+        submitdata: {authenticity_token: $('meta[name="csrf-token"]').attr('content')}
+     });
+  });
+
+

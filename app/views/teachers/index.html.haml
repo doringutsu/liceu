@@ -1,0 +1,30 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 Profesori
+    =link_to new_teacher_path do
+      %button.btn.btn-primary Adăugare profesor
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th Nume, Prenume
+                %th Data nașterii
+                %th Discipline
+                %th Telefon
+            %tbody
+              -@teachers.each do |teacher|
+                %tr
+                  %td
+                    =link_to teacher.full_name, teacher_path(teacher)
+
+                  %td= teacher.birthday
+                  %td= teacher.show_subjects
+                  %td= teacher.phone
+                  %td
+                    =link_to edit_teacher_path(teacher) do
+                      %button.btn.btn-outline.btn-warning Actualizare date

@@ -1,0 +1,55 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= @student.full_name
+    =link_to edit_student_path(@student) do
+      %button.btn.btn-outline.btn-warning Actualizare date
+    =link_to student_grades_path(@student) do
+      %button.btn.btn-outline.btn-warning Actualizare note
+
+    %button.btn.btn-outline.btn-danger#delete Șterge înregistrarea
+    =button_to "", @student, method: :delete, id: :delete_path, hidden: ''
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          %table.table
+            %tr
+              %th Nume
+              %td= @student.last_name
+              %th Prenume
+              %td= @student.first_name
+              %th Clasa
+              %td
+                =link_to @student.group.display, @student.group
+              %th Diriginte
+              %td
+                =link_to @student.group.teacher.full_name, @student.group.teacher
+            %tr
+              %th Data nașterii
+              %td= @student.birthday
+              %th Telefon
+              %td= @student.phone
+              %th Email
+              %td= @student.email
+              %th Limba străină
+              %td= @student.subject.name
+
+:javascript
+  $('#delete').click(function () {
+    swal({
+      title: "Sunteți sigur?",
+      text: "Datele nu vor mai putea fi restabilite!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Șterge înregistrarea",
+      cancelButtonText: "Anulare",
+      closeOnConfirm: true,
+      closeOnCancel: true },
+      function (isConfirm) {
+          if (isConfirm)
+              $('#delete_path')[0].click()
+      });
+  });

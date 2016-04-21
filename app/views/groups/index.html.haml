@@ -1,0 +1,31 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 Clase
+    =link_to new_group_path do
+      %button.btn.btn-primary Adăugare clasă
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th Clasa curentă, Paralela
+                %th Promoție
+                %th Diriginte
+                %th Profil
+            %tbody
+              -@groups.each do |group|
+                %tr
+                  %td
+                    =link_to group.display, group_path(group)
+                  %td= group.year
+                  %td
+                    =link_to group.teacher.full_name, teacher_path(group.teacher)
+                  %td
+                    = group.profile.nil? ? '-' : group.profile
+                  %td
+                    =link_to edit_group_path(group) do
+                      %button.btn.btn-outline.btn-warning Actualizare date

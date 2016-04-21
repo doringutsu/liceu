@@ -1,0 +1,37 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        = simple_form_for @session,
+              wrapper: :horizontal_form,
+              html: {class: 'form-horizontal', id: 'form'} do |f|
+          .ibox-content
+            .row
+              .col-lg-6
+                = f.input :year, label: 'Anul de studii'
+          -@session.theses.each_slice(4) do |year_theses|
+            .ibox-title
+              %h2
+                Clasa
+                = year_theses.first.grade
+            .ibox-content
+              -year_theses.each_slice(2) do |profile_theses|
+                .row
+                  %h3
+                    Profilul
+                    = profile_theses.first.show_profile
+                  -profile_theses.each do |thesis|
+                    .col-lg-6
+                      %h4
+                        Semestrul
+                        = thesis.semester
+                      = f.simple_fields_for "[theses][]", thesis do |q|
+                        = q.input :profile, as: :hidden
+                        = q.input :grade, as: :hidden
+                        = q.input :semester, as: :hidden
+                        = q.input :subjects, label: 'Materii', collection: Subject.for_thesis_year(thesis.grade), input_html: { multiple: true}, :selected => thesis.subjects.map {|t| t.id }
+                      .hr-line-dashed
+
+          .ibox-content
+            .text-center
+              = f.submit :class => 'btn btn-sm btn-primary', :value => 'Salvare'

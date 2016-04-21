@@ -1,0 +1,23 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-8
+      .ibox.float-e-margins
+        .ibox-content
+          = simple_form_for @student.grades,
+            -@student.subjects.each do |subject|
+              %h2= subject.name
+              -subject.years_range.each do |year|
+                =f.simple_fields_for :grades, student.grades.build do |grade|
+                = f.input :value, input_html: { 'data-mask': '99.99'}
+                = f.input :semester, :as => :hidden, :input_html => { :value => grade.semester }
+                = f.input :genre, :as => :hidden, :input_html => { :value => grade.genre }
+              = f.submit :class => 'btn btn-sm btn-primary', :value => 'Salvare'
+
+:javascript
+  $('#data_1 .input-group.date').datepicker({
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    calendarWeeks: true,
+    autoclose: true
+  });

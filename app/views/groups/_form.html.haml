@@ -1,0 +1,32 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-8
+      .ibox.float-e-margins
+        .ibox-content
+          = simple_form_for @group,
+              wrapper: :horizontal_form,
+              html: {class: 'form-horizontal', id: 'form'} do |f|
+
+            %h2 Date generale
+            = f.input :year, label: 'Promoția'
+            = f.input :letter, label: 'Paralela',  input_html: { 'maxlength': '1'}
+            = f.input :teacher_id, :collection => Teacher.all, :label_method => :full_name, :value_method => :id, :label => "Diriginte"
+            -if @group.curr_year and @group.curr_year >= 10
+              .form-group
+                %label.string.required.col-sm-3.control-label Profil
+                .i-checks
+                  = f.collection_radio_buttons :profile, [['r', 'Real'] ,['u', 'Uman']], :first, :last, :default => true, :include_blank => false do |b|
+                    = b.label(:class => 'checkbox-inline' ) { b.radio_button + b.text}
+
+            %h2 Profesori
+            .text-center
+              = f.submit :class => 'btn btn-sm btn-primary', :value => 'Salvare'
+:javascript
+  $(function() {
+
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
+  });

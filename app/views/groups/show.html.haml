@@ -1,0 +1,72 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "Clasa #{@group.display}"
+    =link_to edit_group_path(@group) do
+      %button.btn.btn-outline.btn-warning Actualizare date
+
+    %button.btn.btn-outline.btn-danger#delete Șterge înregistrarea
+    =button_to "", @group, method: :delete, id: :delete_path, hidden: ''
+
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-8
+      .ibox.float-e-margins
+        .ibox-title
+          %h5 Date generale
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th An
+                %th Paralela
+                %th Diriginte
+                %th Profil
+            %tbody
+              %tr
+                %td= @group.year
+                %td= @group.letter
+                %td
+                  =link_to @group.teacher.full_name, teacher_path(@group.teacher)
+                %td= @group.profile
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-8
+      .ibox.float-e-margins
+        .ibox-title
+          %h5 Elevi
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th Nume, prenume
+                %th Data nașterii
+                %th Telefon
+                %th Email
+            %tbody
+              -@group.students.each do |student|
+                %tr
+                  %td
+                    =link_to student.full_name, student_path(student)
+                  %td= student.birthday
+                  %td= student.phone
+                  %td= student.email
+
+:javascript
+  $('#delete').click(function () {
+    swal({
+        title: "Sunteți sigur?",
+        text: "Datele nu vor mai putea fi restabilite!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Șterge înregistrarea",
+        cancelButtonText: "Anulare",
+        closeOnConfirm: false,
+        closeOnCancel: false },
+      function (isConfirm) {
+          if (isConfirm)
+              $('#delete_path')[0].click()
+      });
+  });

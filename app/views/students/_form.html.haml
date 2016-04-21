@@ -1,0 +1,39 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-8
+      .ibox.float-e-margins
+        .ibox-content
+          = simple_form_for @student,
+              wrapper: :horizontal_form,
+              html: {class: 'form-horizontal', id: 'form'} do |f|
+
+            = f.input :last_name, label: 'Nume'
+            = f.input :first_name, label: 'Prenume'
+            = f.input :phone, label: 'Telefon', input_html: { 'data-mask': '(099)-999-999'}
+            = f.input :email
+            /= f.input :birthday, as: :datepicker, required: true, label: 'Data nașterii'
+            .form-group#data_1
+              = f.label :birthday, 'Data nașterii', :class => 'col-sm-3 control-label'
+              .col-sm-9
+                .input-group.date
+                  %span.input-group-addon
+                    %i.fa.fa-calendar
+                  = f.text_field :birthday, :class => 'form-control', 'data-mask': '9999-99-99'
+            = f.input :idnp, label: 'IDNP', input_html: { 'data-mask': '9999999999999'}
+            = f.input :subject_id, collection: Subject.where(genre: 'f'), label_method: :name, value_method: :id, label: "Limba străină"
+            = f.input :group_id, label: 'Clasa', collection: Group.all, label_method: :display
+            = f.input :p_last_name, label: 'Numele părintelui'
+            = f.input :p_first_name, label: 'Preumele părintelui'
+            = f.input :p_phone, label: 'Telefonul părintelui', input_html: { 'data-mask': '(099)-999-999'}
+            = f.input :p_email, label: 'Email-ul părintelui'
+            .text-center
+              = f.submit :class => 'btn btn-sm btn-primary', :value => 'Salvare'
+
+:javascript
+  $('#data_1 .input-group.date').datepicker({
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    calendarWeeks: true,
+    autoclose: true
+  });
